@@ -1,0 +1,23 @@
+# Build output
+/build/
+/out/
+*.obj
+*.pdb
+*.ilk
+*.exe
+*.lib
+!third_party/easyx/lib/**/*.lib
+
+# Local runtime data
+highscore.dat
+highscore.tmp
+leak_report.txt
+
+# IDE / CMake
+.vs/
+.vscode/
+CMakeUserPresets.json
+compile_commands.json
+
+# Temporary capture artifacts
+docs/capture-*.png
