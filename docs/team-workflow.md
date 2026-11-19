@@ -5,8 +5,8 @@
 用自己的 GitHub 账号接受仓库邀请。仓库所有者在 Settings → Collaborators 邀请另外两位。每人装 Git、CMake 和带“使用 C++ 的桌面开发”的 Visual Studio。第一次在项目要放的位置打开终端，执行：
 
 ~~~sh
-git clone https://github.com/Setsuna-uwu/Parkour-temp.git
-cd Parkour-temp
+git clone https://github.com/Setsuna-uwu/ParkourGame.git
+cd ParkourGame
 ~~~
 
 以后都在这份目录工作。先用 PowerShell 运行 `.\scripts\run.bat`，确认原版能开，再动代码。
