@@ -1,38 +1,61 @@
-# 三人怎么一起改雪原跑酷
+# 雪原跑酷 · 小组协作约定
 
-## 第一次准备
+三个人共用一个仓库。QQ 用来认领、约试玩和讨论玩法；GitHub 的 main 保存大家下次可以接着开发和演示的版本。每个人用自己的 GitHub 账号提交，可把下面的任务单直接交给自己的 AI 执行。提交人负责试玩，并能解释自己的改动。
 
-用自己的 GitHub 账号接受仓库邀请。仓库所有者在 Settings → Collaborators 邀请另外两位。每人装 Git、CMake 和带“使用 C++ 的桌面开发”的 Visual Studio。第一次在项目要放的位置打开终端，执行：
+## 从认领到合并
 
-~~~sh
+| 什么时候 | 谁做 | 做到什么就可以往下走 |
+|---|---|---|
+| 开工前 | 作者 | 群里发“我接【功能】，预计碰【模块】，做好后可以【具体操作和结果】”。有两个人想改同一段逻辑，先约好谁先交。 |
+| 写代码 | 作者 | 在任务分支上做，一次交付一个能验的结果。中途可以多次 commit 和 push。同一功能的实现、调参、修 bug、补测试可以放同一个 PR。 |
+| 交付 | 作者 | 自己试玩，发 PR 到 main，把链接和验证办法发群里。写清哪些跑过、哪些还没跑、是否需要搭档接着改。 |
+| 验收 | 另外两人中的一人 | 看 Files changed，照作者的步骤试，再试一个容易出问题的情况。通过就在 PR 的 Review changes 点 Approve。有问题贴出操作、预期和实际结果。文档改动只核对文字、命令和链接。 |
+| 合并 | 仓库负责人 | 确认至少一位非作者看过最终改动、没有未解冲突，点 Merge pull request 并确认。负责人自己的 PR 也由另一位验。缺验证、玩法没达成约定、夹带别人的改动，都写清楚后退回原 PR。 |
+
+### 发给 AI 的任务单
+
+复制这段，把方括号换成自己的任务。第一次使用先让仓库负责人在 Settings → Collaborators 邀请自己的 GitHub 账号并接受邀请。新电脑装 Git、CMake（至少 3.21）和 Visual Studio 的“使用 C++ 的桌面开发”工作负载。
+
+> 我要在 Setsuna-uwu/ParkourGame 完成【任务】，验收方式是【操作、预期结果】。先确认当前目录、远端、分支和工作区状态。第一次克隆 https://github.com/Setsuna-uwu/ParkourGame.git，以后一直用同一份克隆。有未提交的其他工作就先保留并告诉我。检查这个任务是否已有打开的 PR，有就接着用它的分支；新任务从最新 origin/main 开任务分支。先看相关源码，只改完成这个结果所需的文件。代码改完运行 scripts\test.bat Debug，告诉我怎么用 scripts\run.bat 试玩；把脚本失败和未验证的地方写清楚。文档改动检查差异、链接和文中命令。检查将提交的文件，只提交本任务的改动，提交并推送任务分支，创建或更新到 main 的 PR。写明玩家会看到什么、怎样验证、有哪些遗留问题，把 PR 链接给我。合并由仓库负责人操作。
+
+发群里用这一行就够：**【PR 链接】我改了……；请这样试……；应该看到……；还没验证……。** 例如修跳跃时，说清楚旧问题的触发条件，让审核人再试连续起跳、空中第二跳和重开。AI 给出的测试结果和本人试玩结果分别写。
+
+### 一台电脑上的具体操作
+
+第一次在 PowerShell 里执行：
+
+~~~powershell
 git clone https://github.com/Setsuna-uwu/ParkourGame.git
 cd ParkourGame
+.\scripts\run.bat
 ~~~
 
-以后都在这份目录工作。先用 PowerShell 运行 `.\scripts\run.bat`，确认原版能开，再动代码。
+之后在克隆的目录开始新任务。下面用修跳跃举例，分支名和文件名按实际替换。先运行 git status，工作区干净再继续。
 
-## 每次做一个能试玩的小改动
+~~~powershell
+git fetch origin
+git switch -c fix/jump-input origin/main --no-track
+# 完成修改后
+.\scripts\test.bat Debug
+.\scripts\run.bat
+git status
+git diff
+git add src/main.c
+git diff --cached
+git commit -m "修复偶发跳跃输入丢失"
+git push -u origin fix/jump-input
+~~~
 
-1. **群里认领。** 发一句“我改什么、会碰哪些文件、怎样算做好”。比如“我修偶发按空格不跳，主要改 main.c，遇到只绘图的帧也要记住按键”。撞文件就先商量谁先做。
-2. **从最新版开自己的分支。** 先确认 `git status` 显示工作区干净，依次执行下面三行。分支名换成自己的任务名。
-   ~~~sh
-   git switch main
-   git pull --ff-only
-   git switch -c fix/jump-input
-   ~~~
-3. **边改边跑。** 改完试玩自己负责的场景，再跑 `.\scripts\test.bat Debug`。新机制至少试一次成功、一次失败或边界情况。留下一个能重复的步骤。
-4. **提交。** 看 `git status` 和 `git diff`，只选本次改的文件。下面以修跳跃为例：
-   ~~~sh
-   git add src/main.c
-   git commit -m "修复偶发空格被吞"
-   git push -u origin fix/jump-input
-   ~~~
-5. **开 PR（请求合并）。** 仓库网页点 Compare & pull request，目标选 main，来源选自己的分支。说明“改了什么、怎么试、还有什么问题”，发 PR 链接到群里。需要返工就在同一分支改、commit、push，原 PR 自动更新。
-6. **另一个人验，仓库负责人合。** 审核人看 Files changed，然后拉这条分支试玩（见下）。能跑、说好的效果能复现、原有跳跃和重开正常，就在 PR 点 Approve；有问题写明操作和现象。由仓库负责人点 Merge pull request。负责人自己的 PR 同样找另一人验。遇到冲突或审完又改，先看最终差异、再试一次才合。合完三个人下次都从第 2 步开始。
+打开仓库的 Pull requests → New pull request，base 选 main，compare 选自己的分支，核对文件后创建。审核人本机工作区干净时执行 git fetch origin，再执行 git switch --detach origin/fix/jump-input 试玩，结束后 git switch main。也可以由作者共享屏幕，审核人指定操作。
 
-审核人的本机工作区干净时，运行 `git fetch origin`、`git switch --detach origin/fix/jump-input`（替换分支名），再运行游戏。结束后 `git switch main`。自己的工作还没提交时可以让作者共享屏幕，按审核人给的步骤操作。
+## 分支、返工和冲突怎么处理
 
-**显示冲突怎么办？** 作者在自己的任务分支运行 `git fetch origin`、`git merge origin/main`。只要涉及同伴改过的逻辑，两人一起打开标出冲突的文件，把两边要保留的行为整理好，再 `git add 文件名`、`git commit`、试玩、`git push`。拿不准时用 `git merge --abort` 回到合并前，群里贴文件名约对方一起看。
+- **PR 还开着**：留在原分支修，commit 后 git push，原 PR 会更新。让审核人知道需要重看哪一点。
+- **PR 已经合并**：它的验收结束。后续改动需要进入 main 时另开 PR。新功能通常从最新 origin/main 开一条分支；紧接着改同一主题也可以复用已合并的旧分支。先 git fetch origin，在旧分支执行 git merge --ff-only origin/main，成功后再写；如果不能快进，让 AI 检查两边历史。多人各用一条永久分支容易把不同任务混到一起。通常每人手上同时一个任务分支就够。
+- **分支收尾**：合并后确认没有人继续用，负责人可点 PR 页的 Delete branch。已合并的提交仍在 main，PR 也能查。想继续用同一分支做紧接着的修改，就先留着。
+- **GitHub 提示冲突**：由 PR 作者在干净的任务分支上 git fetch origin，然后 git merge origin/main。把冲突文件和两边的功能发群里，请改过那段的人一起确认。让 AI 说明两边各改了什么，按约定编辑，git add 对应文件、git commit。分别试玩两个功能以及它们一起生效的情况，最后 git push，请审核人重看。没理清时 git merge --abort 可以退出本次冲突合并。不要整份覆盖，也不要强推 main。
+- **最容易撞的地方**：例如一人做雪坡，另一人做跳跃，两人可能都要改 game.c 里更新角色的几行。先约定谁提供“按位置查询地面高度”的函数、谁调用它，提供接口的 PR 先合，另一人同步 main 再接入。不同文件也可能有行为冲突，例如障碍画在坡上而碰撞盒还在平地；最终要把两项功能放在同一局里试。
+- **从原型走到答辩**：先约定一段能试玩的玩法，再按模块认领并接通一局，随后加内容和调手感，最后轮流按答辩流程演示。每人给报告留一个真实调试案例。玩法没定的部分先写成待讨论项，群里确定后才算开发任务。
 
 ## 课设和分工
 
