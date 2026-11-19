@@ -2,6 +2,8 @@
 
 Windows 10/11 上的 2D 横版无限跑酷 **可玩 MVP**。核心玩法用纯 C11 实现，EasyX 只存在于 C++17 适配层；CMake + MSVC 构建。
 
+[三人协作：认领、提交、审核与合并](docs/team-workflow.md)
+
 ![游戏截图](docs/screenshot.png)
 
 ## 当前状态
@@ -14,7 +16,7 @@ Windows 10/11 上的 2D 横版无限跑酷 **可玩 MVP**。核心玩法用纯 C
 | 图形库 | EasyX 26.10.25（已随项目 vendored，无需全局安装） |
 | 测试 | 765 项断言全绿；含 120 秒自动跑酷长局 |
 | 音频 | 无（按 MVP 范围） |
-| 交付形态 | 可编译源码 + 已构建的 `build\Release\SnowParkour.exe` |
+| 交付形态 | 可编译源码；本机构建后生成 `build\Release\SnowParkour.exe` |
 
 ## 快速开始
 
@@ -138,8 +140,7 @@ C项目/
 ├─ scripts/                 # build / test / run / debug-env
 ├─ assets/                  # 程序化图标、资源说明
 ├─ third_party/easyx/       # vendored EasyX 26.10.25
-├─ docs/                    # 需求、架构、素材来源、截图
-└─ harness/                 # T01–T15 任务与门禁
+└─ docs/                    # 需求、架构、素材来源、截图
 ```
 
 ## 文档
@@ -147,8 +148,6 @@ C项目/
 - [需求规格](docs/requirements.md)
 - [架构与决策](docs/architecture.md)
 - [素材来源与许可](docs/asset-credits.md)
-- [Harness 规格](harness/spec.md)
-- [任务门禁](harness/gates.md)
 - [GAME OVER 截图](docs/screenshot-gameover.png) · [暂停截图](docs/screenshot-pause.png) · [F1 调试截图](docs/screenshot-debug.png)
 
 ## 已知限制（MVP 范围）
