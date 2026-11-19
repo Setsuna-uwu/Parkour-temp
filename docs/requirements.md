@@ -1,7 +1,7 @@
 # 需求规格 v0.1（已实现基线）
 
 项目：**雪原跑酷 / Snow Parkour**  
-目标：用 AI harness 驱动开发，在 Windows 10/11 上交付一个 C 为主的 2D 横版无限跑酷小游戏；本阶段交付可玩 MVP。
+目标：在 Windows 10/11 上交付一个 C 为主的 2D 横版无限跑酷小游戏；本阶段交付可玩 MVP。
 
 ## 1. 目标与范围
 
@@ -131,12 +131,6 @@ main.c (C)
 - Debug 构建设置 `_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF`，退出自动写 `leak_report.txt`。
 - 已验证 Debug 正常退出时报告文件为 0 字节。
 - Release 不启用额外检查。
-
-### Harness 友好
-
-- 每步可 `scripts/build.bat` 编译。
-- 每步可 `scripts/test.bat` 跑测试。
-- 任务拆分为 T01–T15，门禁在 `harness/gates.md`。
 
 ## 6. 明确不做（MVP）
 
