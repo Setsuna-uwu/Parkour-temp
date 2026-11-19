@@ -1,8 +1,12 @@
 # 雪原跑酷 · Snow Parkour
 
-Windows 10/11 上的 2D 横版无限跑酷 **可玩 MVP**。核心玩法用纯 C11 实现，EasyX 只存在于 C++17 适配层；CMake + MSVC 构建。
+## 组员从这里开始
 
-[三人协作：认领、提交、审核与合并](docs/team-workflow.md)
+**[打开三人协作指南](docs/team-workflow.md)** · [查看待验收的 PR](https://github.com/Setsuna-uwu/ParkourGame/pulls)
+
+在 QQ 接任务，从最新的 `main` 开分支。改完自己试玩，把 **PR 链接、试玩步骤和已知问题** 发回群里，由组长验收合并。第一次提交可照指南里的 GitHub Desktop 按钮操作，也可以复制 AI 任务单。
+
+**当前可玩原型**是平地自动跑酷，有跳跃、障碍和最高分存档。**接下来的玩法方向**是随机雪道上的无限滑雪：沿坡自动前进，在断崖或障碍前选择起跳，尽量滑得更远。开局一条命，路上可以捡额外生命。下图是当前原型。
 
 ![游戏截图](docs/screenshot.png)
 
