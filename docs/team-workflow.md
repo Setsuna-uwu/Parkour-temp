@@ -1,38 +1,75 @@
-# 三人怎么一起改雪原跑酷
+# 雪原跑酷 · 三人交付说明
 
-## 第一次准备
+**QQ 群派任务，GitHub 交代码，组长验收并合并。** 每项任务有一位作者。组长自己的改动也走 PR，试玩或核对文档后自行合并。组员随时可以提意见；交付不需要等另一位在线点 Approve。
 
-用自己的 GitHub 账号接受仓库邀请。仓库所有者在 Settings → Collaborators 邀请另外两位。每人装 Git、CMake 和带“使用 C++ 的桌面开发”的 Visual Studio。第一次在项目要放的位置打开终端，执行：
+## QQ 群里怎么走完一单
 
-~~~sh
-git clone https://github.com/Setsuna-uwu/ParkourGame.git
-cd ParkourGame
+| 时机 | 谁发 | 可以照着填 |
+|---|---|---|
+| 开工 | 组长 @负责人 | 【任务】修复起跳偶尔漏按。【范围】输入和主循环。【验收】只绘图的那一帧按下空格，下一次更新能跳；长按不会凭空多跳一次。【时间】周五晚前给可试玩版，赶不上提前说。 |
+| 接单 | 负责人 | 收到，预计……交。要动另一人负责的文件时我先在群里说。 |
+| 遇到问题 | 负责人 | 我做到……；执行……后看到了……；已试过……；需要……。附报错原文或截图。 |
+| 交付 | 负责人 | 【PR 链接】……。【怎么验】打开游戏后……。【我实际试过】……。【还没验证/已知问题】……。 |
+| 收尾 | 组长 | 通过，已合进 main；或：按……操作时出现……，预期是……，请在原 PR 补改。 |
+
+能运行、能复现约定的效果，而且相关旧功能仍然正常，组长就可以合。文档任务检查文字、链接和操作步骤。完成进度以 PR 里的文件和验证结果为准。时间紧时只交能验收的一小块，剩下的单独约。
+
+## 第一次准备（每人一次）
+
+1. 登录自己的 GitHub 账号，接受组长从仓库 Settings → Collaborators 发来的邀请。
+2. 安装 [GitHub Desktop](https://desktop.github.com/download/)，用同一账号登录。游戏构建还需要 CMake ≥ 3.21 和 Visual Studio 的“使用 C++ 的桌面开发”工作负载。
+3. Desktop 点 File → Clone repository → URL，填 https://github.com/Setsuna-uwu/ParkourGame.git，选好本地目录，点 Clone。已有带 .git 的克隆就点 File → Add local repository 选现成目录。下载的 ZIP 解压目录另存，之后用克隆目录工作。
+4. Repository → Show in Explorer 打开文件夹，双击 scripts 里的 run.bat。第一次等它编译，看见游戏并能跳跃、重开，就具备了开工条件。脚本一闪即退，可以在项目目录打开 PowerShell，输入下方运行命令看完整报错。
+
+## 收到任务后，可以交给 AI 操作
+
+把 QQ 任务原文和以下这段一起发给能操作本地项目的 AI：
+
+> 在本机 ParkourGame 克隆里做这项任务。先确认仓库、当前分支、工作区和远端最新 main；保留我未提交的其他工作。查本任务有无打开的 PR，有就用它的来源分支继续；新任务从最新 main 单开分支。只修改验收所需文件。代码改完运行 scripts/test.bat Debug，告诉我怎么启动并试玩成功和失败两种情况。文档任务检查内容和链接。让我知道验证结果，再把本任务改动 commit、push，创建或更新到 main 的 PR，把 PR 链接和待验证事项给我。留给组长合并。
+
+本人至少试玩自己的改动一次，能说清改了哪里、怎样验证。AI 没有推送权限时，在自己的 Desktop 里完成下面的提交步骤即可。
+
+## 自己点按钮完成一次交付
+
+1. **拿最新版。** Desktop 顶部 Current branch 选 main，点 Fetch origin；若随后显示 Pull origin，再点一下。若 Changes 有没保存进 Git 的旧工作，先把它留在原任务分支，拿不准就截屏问组长。
+2. **进入自己的任务分支。** 新任务点 Current branch → New branch，名字写任务，例如 fix/jump-input，基于 main 创建。组长退回的旧任务直接选原来的分支。
+3. **在这个目录里写。** 用编辑器打开刚才克隆的文件夹。代码改完双击 scripts/run.bat 试玩，再运行核心测试。在项目目录 PowerShell 执行：
+   ~~~powershell
+   .\scripts\run.bat
+   .\scripts\test.bat Debug
+   ~~~
+4. **保存并上传。** 切回 Desktop，在 Changes 勾选本次要交的文件，左下 Summary 写具体改动，点 Commit to 当前任务分支。第一次上传点 Publish branch，以后点 Push origin。Commit 只保存到本机，Push 后队友才看得到。
+5. **发起 PR。** 在仓库网页 Pull requests → New pull request，base 选 main，compare 选你的任务分支，核对文件后 Create pull request。写怎么验，复制此页链接发 QQ。有 GitHub Desktop 的预览 PR 按钮也可以从那里进入。
+6. **根据反馈补改。** 保持同一分支，改文件 → Commit → Push，回到原 PR 的 Files changed 看最新内容，在群里回一句“已更新，请按……复验”。一项任务中途可以提交多次。
+
+## 想让 AI 带着学命令行，可以跟这一个例子
+
+在克隆目录打开 PowerShell，一段一段执行。下面用修跳跃举例，分支名和文件名换成自己的。本段和上面的按钮流程任选一条。
+
+~~~powershell
+git status                     # 查看当前分支和未提交文件
+git switch main                # 切换到本地 main
+git pull --ff-only             # 把远端 main 的更新拿到本地
+git switch -c fix/jump-input   # 从此处新建并切到任务分支；一项任务只做一次
 ~~~
 
-以后都在这份目录工作。先用 PowerShell 运行 `.\scripts\run.bat`，确认原版能开，再动代码。
+改完并试玩后：
 
-## 每次做一个能试玩的小改动
+~~~powershell
+git diff                       # 看这次具体改了哪些行
+git add src/main.c             # 选进本次提交；按实际改动选择文件
+git diff --cached              # 再核对将要提交的内容
+git commit -m "修复偶发跳跃输入丢失"
+git push -u origin fix/jump-input   # 首推，建立本地与远端分支的对应关系
+~~~
 
-1. **群里认领。** 发一句“我改什么、会碰哪些文件、怎样算做好”。比如“我修偶发按空格不跳，主要改 main.c，遇到只绘图的帧也要记住按键”。撞文件就先商量谁先做。
-2. **从最新版开自己的分支。** 先确认 `git status` 显示工作区干净，依次执行下面三行。分支名换成自己的任务名。
-   ~~~sh
-   git switch main
-   git pull --ff-only
-   git switch -c fix/jump-input
-   ~~~
-3. **边改边跑。** 改完试玩自己负责的场景，再跑 `.\scripts\test.bat Debug`。新机制至少试一次成功、一次失败或边界情况。留下一个能重复的步骤。
-4. **提交。** 看 `git status` 和 `git diff`，只选本次改的文件。下面以修跳跃为例：
-   ~~~sh
-   git add src/main.c
-   git commit -m "修复偶发空格被吞"
-   git push -u origin fix/jump-input
-   ~~~
-5. **开 PR（请求合并）。** 仓库网页点 Compare & pull request，目标选 main，来源选自己的分支。说明“改了什么、怎么试、还有什么问题”，发 PR 链接到群里。需要返工就在同一分支改、commit、push，原 PR 自动更新。
-6. **另一个人验，仓库负责人合。** 审核人看 Files changed，然后拉这条分支试玩（见下）。能跑、说好的效果能复现、原有跳跃和重开正常，就在 PR 点 Approve；有问题写明操作和现象。由仓库负责人点 Merge pull request。负责人自己的 PR 同样找另一人验。遇到冲突或审完又改，先看最终差异、再试一次才合。合完三个人下次都从第 2 步开始。
+然后按上文第 5 步开 PR。PR 已打开时，补改仍在原分支执行 add、commit、push 即可。同一功能做一条分支，交付结束后可删除已合并分支，下次从最新 main 开工。
 
-审核人的本机工作区干净时，运行 `git fetch origin`、`git switch --detach origin/fix/jump-input`（替换分支名），再运行游戏。结束后 `git switch main`。自己的工作还没提交时可以让作者共享屏幕，按审核人给的步骤操作。
+## 组长怎么验、怎么知道已经进 main
 
-**显示冲突怎么办？** 作者在自己的任务分支运行 `git fetch origin`、`git merge origin/main`。只要涉及同伴改过的逻辑，两人一起打开标出冲突的文件，把两边要保留的行为整理好，再 `git add 文件名`、`git commit`、试玩、`git push`。拿不准时用 `git merge --abort` 回到合并前，群里贴文件名约对方一起看。
+在 PR 页确认目标是 main，Files changed 里看本次改了什么。代码任务可在干净的 Desktop 工作区点 Fetch origin，在 Current branch 中选作者的任务分支，本机按 QQ 的步骤试玩，并补试一个旧功能。有问题给作者结论；通过后在 PR 页点 Merge pull request，再点 Confirm merge。网页出现紫色 Merged 后，到仓库 Code 页选择 main，打开这次改的具体文件核对。本机也要切到 main 点 Fetch origin → Pull origin。PR 页的 Approve 或 Close 都不会把代码并入 main。
+
+**冲突由组长协调。** 同一文件的不同段通常能自动合并；若两项任务都要改角色落地的同一段，派活时就定好谁先交，谁接着改。GitHub 提示冲突时，作者把 PR 链接和冲突文件发群里，组长可让 AI 在该任务分支合入最新 main，说明两边各自要保留的行为，再解决冲突、提交、推送。相关两项功能放在同一局试玩通过才合。遇到含义不清的改动找作者确认，避免直接整份覆盖文件。
 
 ## 课设和分工
 
